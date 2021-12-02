@@ -1,12 +1,16 @@
 'use strict';
+const patients = [
+  { id: 1, name: 'Maria', birthDate: '1984-11-01' },
+  { id: 2, name: 'Joao', birthDate: '1980-01-16' },
+  { id: 3, name: 'Jose', birthDate: '1998-06-06' },
+];
 
-module.exports.hello = async (event) => {
+module.exports.listPatients = async (event) => {
   return {
     statusCode: 200,
     body: JSON.stringify(
       {
-        message: 'Go Serverless v1.0! Your function executed successfully!',
-        input: event,
+        patients
       },
       null,
       2
