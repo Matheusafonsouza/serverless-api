@@ -5,6 +5,10 @@ const patients = [
   { id: 3, name: 'Jose', birthDate: '1998-06-06' },
 ];
 
+/**
+ * List all the patients for this application.
+ * @return {[object]} A JSON response with 200 status code and all the patients
+ */
 module.exports.listPatients = async (event) => {
   return {
     statusCode: 200,
@@ -18,6 +22,10 @@ module.exports.listPatients = async (event) => {
   };
 };
 
+/**
+ * Get a patient for a given id.
+ * @return {[object]} A JSON response with 200 status code and the patient
+ */
 module.exports.getPatient = async (event) => {
   const { id } = event.pathParameters;
   const patient = patients.find(patient => patient.id == id)
