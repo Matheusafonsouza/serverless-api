@@ -7,3 +7,9 @@ provider:
 functions:
   listPatients:
     handler: handler.listPatients
+    events:
+      - httpApi: 'GET /patients'
+  getPatient:
+    handler: handler.getPatient
+    events:
+      - httpApi: 'GET /patients/{id}'
