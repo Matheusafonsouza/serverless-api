@@ -30,14 +30,19 @@ module.exports.getPatient = async (event) => {
   const { id } = event.pathParameters;
   const patient = patients.find(patient => patient.id == id)
 
+  if (!patient) {
+    return {
+      statusCode: 404,
+      body: JSON.stringify({
+        error: 'Patient does not exists.'
+      }, null, 2),
+    }
+  }
+
   return {
     statusCode: 200,
-    body: JSON.stringify(
-      {
-        patient
-      },
-      null,
-      2
-    ),
+    body: JSON.stringify({
+      patient
+    }, null, 2),
   };
 };
