@@ -1,4 +1,6 @@
 service: patients-registration
+plugins:
+  - serverless-offline
 frameworkVersion: '2'
 provider:
   name: aws
