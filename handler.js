@@ -1,25 +1,36 @@
 'use strict';
+const AWS = require('aws-sdk');
+
 const patients = [
   { id: 1, name: 'Maria', birthDate: '1984-11-01' },
   { id: 2, name: 'Joao', birthDate: '1980-01-16' },
   { id: 3, name: 'Jose', birthDate: '1998-06-06' },
 ];
 
+const dynamoDB = new AWS.DynamoDB.DocumentClient();
+const params = { TableName: 'patient' };
+
 /**
  * List all the patients for this application.
  * @return {[object]} A JSON response with 200 status code and all the patients
  */
 module.exports.listPatients = async (event) => {
-  return {
-    statusCode: 200,
-    body: JSON.stringify(
-      {
-        patients
-      },
-      null,
-      2
-    ),
-  };
+  try {
+    const data = await dynamoDB.scan(params).promise();
+    return {
+      statusCode: 200,
+      body: JSON.stringify(data)
+    };
+  } catch (err) {
+    console.log('Error', err);
+    return {
+      statusCode: err.statusCode || 500,
+      body: JSON.stringify({
+        error: err.name || 'Exception',
+        message: err.message || 'Unknown error',
+      })
+    };
+  }
 };
 
 /**

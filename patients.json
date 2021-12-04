@@ -1,0 +1,100 @@
+{
+  "patient": [
+    {
+      "PutRequest": {
+        "Item": {
+          "birth_date": {
+            "S": "2000-11-11"
+          },
+          "email": {
+            "S": "afonso@email.com"
+          },
+          "name": {
+            "S": "afonso"
+          },
+          "phone": {
+            "S": "61999332223"
+          },
+          "status": {
+            "BOOL": true
+          },
+          "patient_id": {
+            "S": "1"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "birth_date": {
+            "S": "2001-11-11"
+          },
+          "email": {
+            "S": "bianca@email.com"
+          },
+          "name": {
+            "S": "bianca"
+          },
+          "phone": {
+            "S": "61999332222"
+          },
+          "status": {
+            "BOOL": true
+          },
+          "patient_id": {
+            "S": "2"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "birth_date": {
+            "S": "2002-11-11"
+          },
+          "email": {
+            "S": "jennifer@email.com"
+          },
+          "name": {
+            "S": "jennifer"
+          },
+          "phone": {
+            "S": "61999332543"
+          },
+          "status": {
+            "BOOL": true
+          },
+          "patient_id": {
+            "S": "3"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "birth_date": {
+            "S": "1999-11-11"
+          },
+          "email": {
+            "S": "eduardo@email.com"
+          },
+          "name": {
+            "S": "eduardo"
+          },
+          "phone": {
+            "S": "61987878787"
+          },
+          "status": {
+            "BOOL": true
+          },
+          "patient_id": {
+            "S": "4"
+          }
+        }
+      }
+    }
+  ]
+}
