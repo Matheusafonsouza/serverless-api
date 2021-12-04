@@ -9,6 +9,16 @@ provider:
   runtime: nodejs12.x
   lambdaHashingVersion: 20201221
 
+  # AWS permissions for this serverless
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:PutItem
+        - dynamodb:DeleteItem
+      Resource: arn:aws:dynamodb:us-east-1:183013629439:table/patient
+
 functions:
   listPatients:
     handler: handler.listPatients
