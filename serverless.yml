@@ -29,6 +29,10 @@ functions:
     handler: handler.getPatient
     events:
       - httpApi: 'GET /patients/{patient_id}'
+  createPatient:
+    handler: handler.createPatient
+    events:
+      - httpApi: 'POST /patients'
 
 resources:
   Resources:

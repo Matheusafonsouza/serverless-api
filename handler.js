@@ -1,5 +1,6 @@
 'use strict';
 const AWS = require('aws-sdk');
+const { v4 } = require('uuid');
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 const params = { TableName: 'patient' };
@@ -50,6 +51,45 @@ module.exports.getPatient = async (event) => {
     return {
       statusCode: 200,
       body: JSON.stringify(Item, null, 2)
+    }
+  } catch (err) {
+    console.log('Error', err);
+    return {
+      statusCode: err.statusCode || 500,
+      body: JSON.stringify({
+        error: err.name || 'Exception',
+        message: err.message || 'Unknown error',
+      })
+    };
+  }
+};
+
+/**
+ * Create a new patient.
+ * @return {[object]} JSON response with status code
+ */
+module.exports.createPatient = async (event) => {
+  const body = JSON.parse(event.body);
+  const { name, birth_date, email, phone } = body;
+
+  const patient = {
+    name,
+    birth_date,
+    email,
+    phone,
+    patient_id: v4(),
+    created_at: new Date().getTime(),
+    updated_at: new Date().getTime()
+  }
+
+  try {
+    await dynamoDB.put({
+      ...params,
+      Item: patient
+    }).promise();
+
+    return {
+      statusCode: 201
     }
   } catch (err) {
     console.log('Error', err);
