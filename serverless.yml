@@ -17,6 +17,7 @@ provider:
         - dynamodb:Scan
         - dynamodb:PutItem
         - dynamodb:DeleteItem
+        - dynamodb:GetItem
       Resource: arn:aws:dynamodb:us-east-1:183013629439:table/patient
 
 functions:
@@ -27,7 +28,7 @@ functions:
   getPatient:
     handler: handler.getPatient
     events:
-      - httpApi: 'GET /patients/{id}'
+      - httpApi: 'GET /patients/{patient_id}'
 
 resources:
   Resources:
