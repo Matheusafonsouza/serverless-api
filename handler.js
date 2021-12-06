@@ -2,7 +2,17 @@
 const AWS = require('aws-sdk');
 const { v4 } = require('uuid');
 
-const dynamoDB = new AWS.DynamoDB.DocumentClient();
+const dynamoDBOfflineOptions = {
+  region: 'localhost',
+  endpoint: 'http://localhost:8000'
+};
+
+const isOffline = () => process.env.IS_OFFLINE;
+
+const dynamoDB = isOffline()
+  ? new AWS.DynamoDB.DocumentClient(dynamoDBOfflineOptions)
+  : new AWS.DynamoDB.DocumentClient();
+
 const params = { TableName: 'patient' };
 
 /**
