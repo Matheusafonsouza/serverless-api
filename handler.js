@@ -134,17 +134,56 @@ module.exports.updatePatient = async (event) => {
     }
   } catch (err) {
     console.log('Error', err);
+    let name = err.name;
+    let message = err.message;
 
-    if (error === 'ConditionalCheckFailedException') {
-      err.name = 'Patient does not exists';
-      err.message = `Row with patient_id ${patient_id} does not exists and cannot be updated.`
+    if (name === 'ConditionalCheckFailedException') {
+      name = 'Patient does not exists';
+      message = `Row with patient_id ${patient_id} does not exists and cannot be updated.`
     }
 
     return {
       statusCode: err.statusCode || 500,
       body: JSON.stringify({
-        error: err.name || 'Exception',
-        message: err.message || 'Unknown error',
+        error: name || 'Exception',
+        message: message || 'Unknown error',
+      })
+    };
+  }
+}
+
+/**
+ * Deletes a given patient.
+ * @return {[object]} JSON response with status code
+ */
+module.exports.deletePatient = async (event) => {
+  const { patient_id } = event.pathParameters;
+
+  try {
+    await dynamoDB.delete({
+      ...params,
+      Key: { patient_id },
+      ConditionExpression: 'attribute_exists(patient_id)'
+    }).promise();
+
+    return {
+      statusCode: 204
+    }
+  } catch (err) {
+    console.log('Error', err);
+    let name = err.name;
+    let message = err.message;
+
+    if (name === 'ConditionalCheckFailedException') {
+      name = 'Patient does not exists';
+      message = `Row with patient_id ${patient_id} does not exists and cannot be updated.`
+    }
+
+    return {
+      statusCode: err.statusCode || 500,
+      body: JSON.stringify({
+        error: name || 'Exception',
+        message: message || 'Unknown error',
       })
     };
   }

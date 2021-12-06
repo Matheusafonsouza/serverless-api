@@ -38,6 +38,10 @@ functions:
     handler: handler.updatePatient
     events:
       - httpApi: 'PUT /patients/{patient_id}'
+  deletePatient:
+    handler: handler.deletePatient
+    events:
+      - httpApi: 'DELETE /patients/{patient_id}'
 
 resources:
   Resources:
