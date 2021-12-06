@@ -29,6 +29,8 @@ provider:
   runtime: nodejs12.x
   lambdaHashingVersion: 20201221
   stage: dev
+  environment:
+    PATIENT_TABLE: 'patient-${opt.stage, self:provider.stage}'
 
   # AWS permissions for this serverless
   iamRoleStatements:
@@ -40,7 +42,7 @@ provider:
         - dynamodb:DeleteItem
         - dynamodb:GetItem
         - dynamodb:UpdateItem
-      Resource: arn:aws:dynamodb:us-east-1:183013629439:table/patient
+      Resource: arn:aws:dynamodb:${opt.region, self:provider.region}:*:table/${self:provider.environment.PATIENT_TABLE}
 
 functions:
   listPatients:
@@ -69,7 +71,7 @@ resources:
     PatientsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: patient
+        TableName: ${self:provider.environment.PATIENT_TABLE}
         AttributeDefinitions:
           - AttributeName: patient_id
             AttributeType: S

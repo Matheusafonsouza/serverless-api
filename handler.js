@@ -13,7 +13,7 @@ const dynamoDB = isOffline()
   ? new AWS.DynamoDB.DocumentClient(dynamoDBOfflineOptions)
   : new AWS.DynamoDB.DocumentClient();
 
-const params = { TableName: 'patient' };
+const params = { TableName: process.env.PACIENT_TABLE };
 
 /**
  * List all the patients for this application.
