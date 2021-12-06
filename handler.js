@@ -102,3 +102,50 @@ module.exports.createPatient = async (event) => {
     };
   }
 };
+
+/**
+ * Updates the data from a given patient.
+ * @return {[object]} JSON response with status code
+ */
+module.exports.updatePatient = async (event) => {
+  const { patient_id } = event.pathParameters;
+
+  try {
+    const body = JSON.parse(event.body);
+    const { name, birth_date, email, phone } = body;
+
+    await dynamoDB.update({
+      ...params,
+      Key: { patient_id },
+      UpdateExpression: 'SET name = :name, birth_date = :birth_date, '
+        + 'email = :email, phone = :phone, updated_at = :updated_at',
+      ConditionExpression: 'attribute_exists(patient_id)',
+      ExpressionAttributeNames: {
+        ':name': name,
+        ':birth_date': birth_date,
+        ':email': email,
+        ':phone': phone,
+        ':updated_at': new Date().getTime()
+      }
+    }).promise()
+
+    return {
+      statusCode: 204
+    }
+  } catch (err) {
+    console.log('Error', err);
+
+    if (error === 'ConditionalCheckFailedException') {
+      err.name = 'Patient does not exists';
+      err.message = `Row with patient_id ${patient_id} does not exists and cannot be updated.`
+    }
+
+    return {
+      statusCode: err.statusCode || 500,
+      body: JSON.stringify({
+        error: err.name || 'Exception',
+        message: err.message || 'Unknown error',
+      })
+    };
+  }
+}

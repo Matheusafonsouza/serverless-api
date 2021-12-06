@@ -18,6 +18,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:DeleteItem
         - dynamodb:GetItem
+        - dynamodb:UpdateItem
       Resource: arn:aws:dynamodb:us-east-1:183013629439:table/patient
 
 functions:
@@ -33,6 +34,10 @@ functions:
     handler: handler.createPatient
     events:
       - httpApi: 'POST /patients'
+  updatePatient:
+    handler: handler.updatePatient
+    events:
+      - httpApi: 'PUT /patients/{patient_id}'
 
 resources:
   Resources:
